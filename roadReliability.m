@@ -118,20 +118,28 @@ end
 % calculate if they can go through from pt 1 to pt 6, arc_type = 1 or 3 from
 % the beginning by using CA(Cellular Automaton)
 global temp
+global temp_size
 temp={};
+temp_size=zeros(length(arc_type),1);
+
 
 for ix=1:size(arc_type,1)
     for jx=1:size(arc_type,2)
         if (arc_type(ix, jx) ==1  )
-         temp{ix,length(temp)+1}= jx;
+          temp{ix, temp_size(ix)+1}=jx; 
+          temp_size(ix)=temp_size(ix)+1;
         elseif (arc_type(ix, jx) ==2 )            
-         temp{jx,length(temp)+1}= ix;
+          temp{jx, temp_size(jx)+1}=jx; 
+          temp_size(jx)=temp_size(jx)+1;
         elseif(arc_type(ix,jx) == 3)
-            temp{ix,length(temp)+1}= jx;
-            temp{jx,length(temp)+1}= ix;
+          temp{ix, temp_size(ix)+1}=jx; 
+          temp_size(ix)=temp_size(ix)+1;
+          temp{jx, temp_size(jx)+1}=jx; 
+          temp_size(jx)=temp_size(jx)+1;
         end
     end
 end
+
 
 %a temp for testing
 %-------------
@@ -144,49 +152,11 @@ end
 %temp{5,8}=4
 %temp{6,9}=5
 
-global new_temp
-global size_mat
 global checked_list
-
-new_temp={};
-size_mat=zeros(length(arc_type),1);
-
-[rows, cols] = size(temp);
-for ix=1:rows
-    for jx=1:cols
-        if(~isempty(temp{ix,jx}))
-            size_mat(ix)=size_mat(ix)+1;
-            new_temp{ix, size_mat(ix)}= temp{ix,jx};
-        end
-    end
-end
-
-
-%---------------
-%new_temp={}
-%new_temp{1,1}=4
-%new_temp{4,1}=2
-%new_temp{4,2}=5
-%new_temp{5,1}=3
-%new_temp{5,2}=6
-%new_temp{6,1}=5
-
-size_mat=zeros(length(arc_type),1);
-[rows, cols] = size(new_temp);
-
-for ix=1:rows
-    for jx=1:cols
-        if(~isempty(new_temp{ix,jx}))
-            size_mat(ix)=size_mat(ix)+1;
-        end
-    end
-end
 
 
 CA{1,1}=1; %starting point
 
-
-[rows, cols]=size(temp);
 global total_count
 total_count=0;
 global to_check_list
